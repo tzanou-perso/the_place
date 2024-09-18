@@ -1,0 +1,142 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$md-mcgpalette0: (
+    50 : #f2f9fe,
+    100 : #deeffd,
+    200 : #c8e5fc,
+    300 : #b1dafb,
+    400 : #a1d2fa,
+    500 : #90caf9,
+    600 : #88c5f8,
+    700 : #7dbdf7,
+    800 : #73b7f6,
+    900 : #61abf5,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #fafcff,
+    A700 : #e0efff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-mcgpalette1: (
+    50 : #f8ebe2,
+    100 : #edccb8,
+    200 : #e1ab88,
+    300 : #d48958,
+    400 : #cb6f35,
+    500 : #c25611,
+    600 : #bc4f0f,
+    700 : #b4450c,
+    800 : #ac3c0a,
+    900 : #9f2b05,
+    A100 : #ffd4ca,
+    A200 : #ffab97,
+    A400 : #ff8264,
+    A700 : #ff6d4b,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$main-primary: mat.define-palette($md-mcgpalette0);
+$main-secondary: mat.define-palette($md-mcgpalette1);
+$main-accent: mat.define-palette($md-mcgpalette0, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$main-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$main-theme: mat.define-light-theme((
+  color: (
+    primary: $main-primary,
+    secondary: $main-secondary,
+    accent: $main-accent,
+    warn: $main-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($main-theme);
+
+/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: "Helvetica Neue", sans-serif; }
+
+.mat-mdc-snack-bar-label {
+  white-space: pre-line;
+}
+
+.error-snackbar .mdc-snackbar__surface {
+  background: mat.get-color-from-palette($main-warn, 500) !important;
+  color: white;
+}
+
+.mat-drawer-inner-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.search-dialog-container .mat-mdc-form-field-infix {
+  display: flex;
+}
+.search-dialog-container .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5em;
+}
+.search-dialog-container {
+  width: 100vw;
+}

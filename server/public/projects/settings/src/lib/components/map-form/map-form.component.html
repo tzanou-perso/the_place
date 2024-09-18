@@ -1,0 +1,48 @@
+<!-- <p>login-form works!</p>
+<button (click)="login()">Login</button>
+<div>is connected : {{ authStore.isConnected() }}</div>
+<div>userName: {{authStore.user()?.name}}</div>
+<div>email: {{authStore.user()?.email}}</div>
+<div>sessionId: {{authStore.user()?.sessionId}}</div> -->
+<div id="login_container">
+    <mat-card>
+        <div id="pronto_login_logo">
+            <img src="assets/images/logo-big-spark.png">
+        </div>
+        <mat-card-content>
+            <form id="login_form" [formGroup]="loginForm" (submit)="login()">
+                <mat-form-field class="full-width">
+                    <mat-label>{{"EMAIL"|translate}}</mat-label>
+                    <input name="email" formControlName="email" type="text" matInput placeholder="Email">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>{{ 'PASSWORD' | translate }}</mat-label>
+                    <input name="password" formControlName="password" type="password" matInput placeholder="Password">
+                </mat-form-field>
+                <button mat-flat-button type="submit">{{ 'ENTER' | translate }}</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <div id="twofa_activeauth">
+        <div style="margin-bottom:10px; font-size: 14px;">2FA with ActiveAuth</div>
+        <a target="_blank" href="https://play.google.com/store/apps/details?id=com.activeauth">
+            <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+                alt="Get it on Google Play" width="116" style="vertical-align: middle;">
+        </a>
+        <a target="_blank"
+            href="https://apps.apple.com/us/app/activeauth/id1441427571?itsct=apps_box_badge&amp;itscg=30200"
+            style="overflow: hidden; border-radius: 13px;">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1549497600"
+                alt="Download on the App Store" width="116"
+                style="border-radius: 13px; height: 31px; vertical-align: middle;">
+        </a>
+    </div>
+</div>
+<div id="footer">
+    <div class="pronto-login__copyright">{{ 'COPYRIGHT' | translate:{currentYear: currentYear} }}
+    </div>
+    <div class="pronto-login__copyright pronto-login__copyright-version" id="pronto_version">
+        {{ 'LOGIN_BUILD_INFO' | translate:{build_version_number:buildVersionNumber, build_version_build:
+        buildVersionBuild}
+        }}</div>
+</div>

@@ -1,0 +1,27 @@
+<mat-dialog-content class="search_dialog">
+    <form class="example-form">
+        <mat-form-field class="example-full-width">
+            <!-- <mat-label>Search</mat-label> -->
+            <input placeholder="Search" type="text" aria-label="Number" matInput [formControl]="myControl"
+                [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+
+                Contacts
+                <ng-container *ngFor="let option of (filteredOptions | async)?.[0] as options;">
+                    <mat-option [value]="option">{{option}}</mat-option>
+                </ng-container>
+                Emails
+                <ng-container *ngFor="let option of (filteredOptions | async)?.[1] as options;">
+                    <mat-option [value]="option">{{option}}</mat-option>
+                </ng-container>
+
+
+            </mat-autocomplete>
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="search"></mat-icon>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<!-- <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</mat-dialog-actions> -->

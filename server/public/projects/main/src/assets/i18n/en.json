@@ -1,0 +1,14 @@
+{
+    "EMAIL": "Mail",
+    "PASSWORD": "Password",
+    "LOGIN_FAILED": "login failed",
+    "HTTP_ERROR": {
+        "HTTP_ERROR_UNKNOWN_ACCOUNT": "Account not found",
+        "UNKNOWN_DOMAIN_NAME": "Domain not found",
+        "INCORRECT_PASSWORD": "Incorrect password",
+        "ACCOUNT_OR_PASSWORD": "Account or password not correct"
+    },
+    "ENTER": "Enter",
+    "COPYRIGHT": "Copyright © {{currentYear}}, CommuniGate Software Development and Licensing SA",
+    "LOGIN_BUILD_INFO": "Pronto! v.{{build_version_number}}+{{build_version_build}}"
+}
