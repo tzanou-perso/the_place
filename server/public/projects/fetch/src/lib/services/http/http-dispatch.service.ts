@@ -36,7 +36,7 @@ export class HttpDispatchService extends HttpAbstractService {
         type: type,
         body,
         urlParams
-      }).catch((error: HttpError) => {
+      }).catch((error: HttpErrorResponse) => {
         console.error('Http.service dispatch | GET error', error, fullUrl)
         reject(error)
         return error
