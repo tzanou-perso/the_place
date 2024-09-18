@@ -29,7 +29,7 @@ app.configure(rest())
 app.configure(
   socketio({
     cors: {
-      origin: app.get('origins')
+      origin: 'http://localhost:4200'
     }
   })
 )

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import { HttpDispatchService, fetchStore } from 'fetch'
+import { Feathers, HttpDispatchService, fetchStore } from 'fetch'
 import { User, listFeaturesType } from '../models'
 import { authStore } from '../auth.store'
 import { Router } from '@angular/router'
@@ -19,6 +19,7 @@ export class LoginApiService {
   authStore = inject(authStore)
   fetchStore = inject(fetchStore)
   httpDispatchService: HttpDispatchService = inject(HttpDispatchService)
+  featherService: Feathers = inject(Feathers)
   constructor(public router: Router) {}
   // TODO: add type of urlParams
   /**
@@ -51,44 +52,31 @@ export class LoginApiService {
     let loginRequest: any | HttpErrorResponse
     if (!password && sessionId) {
       try {
-        loginRequest = await this.httpDispatchService
-          .request({
-            url: '/authentication/',
-            type: HttpCallType.post,
-            body: {
-              strategy: 'jwt',
-              accessToken: sessionId
-            },
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json'
-            })
-          })
-          .catch((e: HttpErrorResponse) => {
-            console.error('errors', e)
-            return e
-          })
+        loginRequest = await this.featherService.authenticate({
+          strategy: 'jwt',
+          accessToken: sessionId
+        })
       } catch (e) {
-        console.error('errorsf', e)
-        return e as HttpErrorResponse
+        console.error('error', JSON.parse(JSON.stringify(e)), e)
+        return new HttpErrorResponse({
+          error: JSON.parse(JSON.stringify(e)),
+          status: JSON.parse(JSON.stringify(e)).code
+        })
       }
     } else {
-      loginRequest = await this.httpDispatchService
-        .request({
-          url: '/authentication/',
-          type: HttpCallType.post,
-          body: {
-            strategy: 'local',
-            email: email,
-            password: password
-          },
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json'
-          })
+      try {
+        loginRequest = await this.featherService.authenticate({
+          strategy: 'local',
+          email: email,
+          password: password
         })
-        .catch((e: HttpErrorResponse) => {
-          console.error('errorsf', e)
-          return e as HttpErrorResponse
+      } catch (e) {
+        console.error('errorsf', e)
+        return new HttpErrorResponse({
+          error: JSON.parse(JSON.stringify(e)),
+          status: JSON.parse(JSON.stringify(e)).code
         })
+      }
     }
     console.log('loginRequest', isHttpError(loginRequest), loginRequest, typeof loginRequest)
     if (loginRequest instanceof HttpErrorResponse || !loginRequest) {
@@ -128,16 +116,10 @@ export class LoginApiService {
       syncAsync: '1',
       random: reqSeq.toString()
     }
-    const featureRequest = await this.httpDispatchService
-      .request({
-        url: `/Session/${sessionId}/sync`,
-        body: `<XIMSS><bye id="${reqSeq}" /></XIMSS>`,
-        type: HttpCallType.post,
-        urlParams
-      })
-      .catch((e: HttpErrorResponse) => {
-        return e as HttpErrorResponse
-      })
+    const featureRequest = await this.featherService.logout().catch((e: HttpErrorResponse) => {
+      return new HttpErrorResponse({ error: JSON.parse(JSON.stringify(e)), status: e.status })
+    })
+    console.log('logout', featureRequest)
     if (featureRequest instanceof HttpErrorResponse || !featureRequest) {
       return featureRequest
     }
