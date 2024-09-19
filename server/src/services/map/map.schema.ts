@@ -12,9 +12,8 @@ export const mapSchema = Type.Object(
   {
     id: Type.Number(),
     name: Type.String(),
-    numCellWidth: Type.Number(),
-    numCellHeight: Type.Number(),
-    cellSize: Type.Number(),
+    numCellRow: Type.Number(),
+    numCellColumn: Type.Number(),
     createdAt: Type.String({ format: 'date-time', default: () => new Date().toISOString() }),
     updatedAt: Type.String({ format: 'date-time', default: () => new Date().toISOString() })
   },
@@ -27,13 +26,9 @@ export const mapResolver = resolve<Map, HookContext<MapService>>({})
 export const mapExternalResolver = resolve<Map, HookContext<MapService>>({})
 
 // Schema for creating new entries
-export const mapDataSchema = Type.Pick(
-  mapSchema,
-  ['name', 'numCellWidth', 'numCellHeight', 'cellSize', 'createdAt', 'updatedAt'],
-  {
-    $id: 'MapData'
-  }
-)
+export const mapDataSchema = Type.Pick(mapSchema, ['name', 'numCellRow', 'numCellColumn'], {
+  $id: 'MapData'
+})
 export type MapData = Static<typeof mapDataSchema>
 export const mapDataValidator = getValidator(mapDataSchema, dataValidator)
 export const mapDataResolver = resolve<Map, HookContext<MapService>>({})
@@ -50,15 +45,18 @@ export const mapPatchResolver = resolve<Map, HookContext<MapService>>({})
 export const mapQueryProperties = Type.Pick(mapSchema, [
   'id',
   'name',
-  'numCellWidth',
-  'numCellHeight',
-  'cellSize',
+  'numCellRow',
+  'numCellColumn',
   'createdAt',
   'updatedAt'
 ])
 export const mapQuerySchema = Type.Intersect(
   [
-    querySyntax(mapQueryProperties),
+    querySyntax(mapQueryProperties, {
+      name: {
+        $like: Type.String()
+      }
+    }),
     // Add additional query properties here
     Type.Object({}, { additionalProperties: false })
   ],

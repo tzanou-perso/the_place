@@ -6,9 +6,8 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id')
 
     table.string('name').notNullable()
-    table.integer('numCellWidth').notNullable()
-    table.integer('numCellHeight').notNullable()
-    table.integer('cellSize').notNullable()
+    table.integer('numCellRow').notNullable()
+    table.integer('numCellColumn').notNullable()
     table.dateTime('createdAt').notNullable().defaultTo(knex.fn.now())
     table.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now())
   })

@@ -27,7 +27,7 @@
       },
       "audience": "https://yourdomain.com",
       "algorithm": "HS256",
-      "expiresIn": "60s"
+      "expiresIn": "1d"
     },
     "local": {
       "usernameField": "email",

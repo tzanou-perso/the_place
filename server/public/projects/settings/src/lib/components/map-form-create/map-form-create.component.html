@@ -1,1 +1,95 @@
-<p>map-form-create works!</p>
+<!-- <p>login-form works!</p>
+<button (click)="login()">Login</button>
+<div>is connected : {{ authStore.isConnected() }}</div>
+<div>userName: {{authStore.user()?.name}}</div>
+<div>email: {{authStore.user()?.email}}</div>
+<div>sessionId: {{authStore.user()?.sessionId}}</div> -->
+<div id="login_container">
+    <mat-card>
+        <mat-card-content>
+            <form id="login_form" [formGroup]="createMapForm" (submit)="createMap()">
+                <mat-form-field class="full-width">
+                    <mat-label>{{"NAME"|translate}}</mat-label>
+                    <input name="name" formControlName="name" type="text" matInput placeholder="name">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>{{"numCellRow"|translate}}</mat-label>
+                    <input name="numCellRow" formControlName="numCellRow" type="number" matInput
+                        placeholder="numCellRow">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>{{"numCellColumn"|translate}}</mat-label>
+                    <input name="numCellColumn" formControlName="numCellColumn" type="number" matInput
+                        placeholder="numCellColumn">
+                </mat-form-field>
+
+
+                <button mat-flat-button type="submit">{{ 'ENTER' | translate }}</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <!-- List maps in a table -->
+
+    <mat-card>
+        <mat-card-content>
+            <!-- Search -->
+            <mat-form-field class="full-width">
+                <input matInput (keyup)="searchMap(search.value)" placeholder="Search" #search>
+            </mat-form-field>
+            <table mat-table [dataSource]="maps()" class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- make it editable  -->
+                        <mat-form-field floatLabel="auto">
+                            <input matInput placeholder="name" [value]="element.name" [(ngModel)]="element.name">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="numCellRow">
+                    <th mat-header-cell *matHeaderCellDef> Cell Row </th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- make it editable  -->
+                        <mat-form-field floatLabel="auto">
+                            <input matInput placeholder="numCellRow" [value]="element.numCellRow"
+                                [(ngModel)]="element.numCellRow">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="numCellColumn">
+                    <th mat-header-cell *matHeaderCellDef> Cell Column </th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- make it editable  -->
+                        <mat-form-field floatLabel="auto">
+                            <input matInput placeholder="numCellColumn" [value]="element.numCellColumn"
+                                [(ngModel)]="element.numCellColumn">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="editMap(element)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="deleteMap(element.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Header row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <!-- Data rows -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <!-- Next Previous -->
+            <mat-paginator class="mat-elevation-z8" (page)="handlePageEvent($event)" [length]="mapQueryPagination.total"
+                [pageSizeOptions]="[mapQueryInitialLimit, mapQueryInitialLimit*2, mapQueryInitialLimit*3]"
+                showFirstLastButtons></mat-paginator>
+        </mat-card-content>
+    </mat-card>
+</div>

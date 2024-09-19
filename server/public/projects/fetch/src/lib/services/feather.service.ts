@@ -15,7 +15,7 @@ import feathersAuthClient2 from '@feathersjs/authentication-client'
   providedIn: 'root'
 })
 export class Feathers {
-  private _feathers: Application = feathers() // init socket.io
+  private _feathers: any = feathers() // init socket.io
   private _socket = io('http://localhost:3030') // init feathers
   //   private feathersAuthClient = require('@feathersjs/authentication-client').default
 
